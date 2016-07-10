@@ -29,73 +29,38 @@ If you have questions concerning this license or the applicable additional terms
 #include "Precompiled.h"
 #include "globaldata.h"
 
-
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <stdlib.h>
-
-#include <ctype.h>
-
-
-#include "doomdef.h"
-#include "g_game.h"
-#include "z_zone.h"
-
 #include "m_swap.h"
 #include "m_argv.h"
 
-#include "w_wad.h"
-
 #include "i_system.h"
-#include "i_video.h"
 #include "v_video.h"
 
-#include "hu_stuff.h"
-
-// State.
-#include "doomstat.h"
-
-// Data.
-#include "dstrings.h"
-
 #include "m_misc.h"
-#include "d3xp/Game_local.h"
 
-//
-// M_DrawText
-// Returns the final X coordinate
-// HU_Init must have been called to init the font
-//
+/**
+ * Returns the final X coordinate.
+ * HU_Init must have been called to initialize the font.
+ */
+int M_DrawText(int x, int y, qboolean direct, char *string) {
+    int c;
+    int w;
 
-int
-M_DrawText
-( int		x,
-  int		y,
-  qboolean	direct,
-  char*		string )
-{
-    int 	c;
-    int		w;
+    while (*string) {
+        c = toupper(*string) - HU_FONTSTART;
+        string++;
+        if (c < 0 || c > HU_FONTSIZE) {
+            x += 4;
+            continue;
+        }
 
-    while (*string)
-    {
-	c = toupper(*string) - HU_FONTSTART;
-	string++;
-	if (c < 0 || c> HU_FONTSIZE)
-	{
-	    x += 4;
-	    continue;
-	}
-		
-	w = SHORT (::g->hu_font[c]->width);
-	if (x+w > SCREENWIDTH)
-	    break;
-	if (direct)
-	    V_DrawPatchDirect(x, y, 0, ::g->hu_font[c]);
-	else
-	    V_DrawPatch(x, y, 0, ::g->hu_font[c]);
-	x+=w;
+        w = SHORT(::g->hu_font[c]->width);
+        if (x + w > SCREENWIDTH)
+            break;
+        if (direct)
+            V_DrawPatchDirect(x, y, 0, ::g->hu_font[c]);
+        else
+            V_DrawPatch(x, y, 0, ::g->hu_font[c]);
+        x += w;
     }
 
     return x;
@@ -105,72 +70,69 @@ M_DrawText
 //
 // M_WriteFile
 //
-bool M_WriteFile ( char const*	name, void*		source, int		length ) {
-	
-	idFile *		handle = NULL;
-	int		count;
+bool M_WriteFile(char const *name, void *source, int length) {
 
-	handle = fileSystem->OpenFileWrite( name, "fs_savepath" );
+    idFile *handle = NULL;
+    int count;
 
-	if (handle == NULL )
-		return false;
+    handle = fileSystem->OpenFileWrite(name, "fs_savepath");
 
-	count = handle->Write( source, length );
-	fileSystem->CloseFile( handle );
+    if (handle == NULL)
+        return false;
 
-	if (count < length)
-		return false;
+    count = handle->Write(source, length);
+    fileSystem->CloseFile(handle);
 
-	return true;
+    if (count < length)
+        return false;
+
+    return true;
 }
 
 
 //
 // M_ReadFile
 //
-int M_ReadFile ( char const*	name, byte**	buffer ) {
-	int count, length;
-	idFile * handle = NULL;
-	byte		*buf;
+int M_ReadFile(char const *name, byte **buffer) {
+    int count, length;
+    idFile *handle = NULL;
+    byte *buf;
 
-	handle = fileSystem->OpenFileRead( name, false );
+    handle = fileSystem->OpenFileRead(name, false);
 
-	if (handle == NULL ) {
-		I_Error ("Couldn't read file %s", name);
-	}
+    if (handle == NULL) {
+        I_Error("Couldn't read file %s", name);
+    }
 
-	length = handle->Length();
+    length = handle->Length();
 
-	buf = ( byte* )Z_Malloc ( handle->Length(), PU_STATIC, NULL);
-	count = handle->Read( buf, length );
+    buf = (byte *) Z_Malloc(handle->Length(), PU_STATIC, NULL);
+    count = handle->Read(buf, length);
 
-	if (count < length ) {
-		I_Error ("Couldn't read file %s", name);
-	}
+    if (count < length) {
+        I_Error("Couldn't read file %s", name);
+    }
 
-	fileSystem->CloseFile( handle );
+    fileSystem->CloseFile(handle);
 
-	*buffer = buf;
-	return length;
+    *buffer = buf;
+    return length;
 }
 
 //
 // Write a save game to the specified device using the specified game name.
 //
-static qboolean SaveGame( void* source, int length )
-{
-	return false;
+static qboolean SaveGame(void *source, int length) {
+    return false;
 }
 
 
-qboolean M_WriteSaveGame( void* source, int length )
-{
-	return SaveGame( source, length );
+qboolean M_WriteSaveGame(void *source, int length) {
+    return SaveGame(source, length);
 }
 
-int M_ReadSaveGame( byte** buffer )
-{
-	return 0;
+int M_ReadSaveGame(byte **buffer) {
+    return 0;
 }
 
 
@@ -198,19 +160,13 @@ int M_ReadSaveGame( byte** buffer )
 #ifdef LINUX
 #endif
 
-extern const char* const temp_chat_macros[];
-
-
-
-
-
+extern const char *const temp_chat_macros[];
 
 
 //
 // M_SaveDefaults
 //
-void M_SaveDefaults (void)
-{
+void M_SaveDefaults(void) {
 /*
     int		i;
     int		v;
@@ -242,9 +198,8 @@ void M_SaveDefaults (void)
 // M_LoadDefaults
 //
 
-void M_LoadDefaults (void)
-{
-    int		i;
+void M_LoadDefaults(void) {
+    int i;
     //int		len;
     //FILE*	f;
     //char	def[80];
@@ -252,21 +207,20 @@ void M_LoadDefaults (void)
     //char*	newstring;
     //int		parm;
     //qboolean	isstring;
-    
+
     // set everything to base values
-    ::g->numdefaults = sizeof(::g->defaults)/sizeof(::g->defaults[0]);
-    for (i=0 ; i < ::g->numdefaults ; i++)
-		*::g->defaults[i].location = ::g->defaults[i].defaultvalue;
-    
+    ::g->numdefaults = sizeof(::g->defaults) / sizeof(::g->defaults[0]);
+    for (i = 0; i < ::g->numdefaults; i++)
+        *::g->defaults[i].location = ::g->defaults[i].defaultvalue;
+
     // check for a custom default file
-    i = M_CheckParm ("-config");
-    if (i && i < ::g->myargc-1)
-    {
-		::g->defaultfile = ::g->myargv[i+1];
-		I_Printf ("	default file: %s\n",::g->defaultfile);
+    i = M_CheckParm("-config");
+    if (i && i < ::g->myargc - 1) {
+        ::g->defaultfile = ::g->myargv[i + 1];
+        I_Printf("	default file: %s\n", ::g->defaultfile);
     }
     else
-		::g->defaultfile = ::g->basedefault;
+        ::g->defaultfile = ::g->basedefault;
 
 /*
     // read the file in, overriding any set ::g->defaults
@@ -322,21 +276,19 @@ void M_LoadDefaults (void)
 //
 void
 WritePCXfile
-( char*		filename,
-  byte*		data,
-  int		width,
-  int		height,
-  byte*		palette )
-{
-	I_Error( "depreciated" );
+        (char *filename,
+         byte *data,
+         int width,
+         int height,
+         byte *palette) {
+    I_Error("depreciated");
 }
 
 
 //
 // M_ScreenShot
 //
-void M_ScreenShot (void)
-{
+void M_ScreenShot(void) {
 /*
     int		i;
     byte*	linear;

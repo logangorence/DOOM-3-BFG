@@ -225,7 +225,6 @@ idMenuWidget_Carousel::Update
 */
 void idMenuWidget_Carousel::MoveToIndex( int index, bool instant )
 {
-
 	idLib::Printf( "moveToIndex %i\n", index );
 	
 	if( instant )
@@ -321,4 +320,3 @@ void idMenuWidget_Carousel::MoveToIndex( int index, bool instant )
 	
 	idLib::Printf( "moveDiff = %i\n", moveDiff );
 }
-
