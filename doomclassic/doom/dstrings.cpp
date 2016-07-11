@@ -26,18 +26,12 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "Precompiled.h"
-
 #ifdef __GNUG__
 #pragma implementation "dstrings.h"
 #endif
 #include "dstrings.h"
 
-#include "globaldata.h"
-
-
-const char* endmsg[NUM_QUITMESSAGES+1]=
-{
+const char* endmsg[NUM_QUITMESSAGES + 1] = {
   // DOOM1
   QUITMSG,
   "are you sure you want to quit?",
@@ -69,9 +63,3 @@ const char* endmsg[NUM_QUITMESSAGES+1]=
   // Internal debug. Different style, too.
   "are you sure you want to quit?"
 };
-
-
-  
-
-
-

@@ -67,7 +67,6 @@ enum gameSKU_t {
 	GAME_SKU_DCC = 0,				// Doom Classic Complete
 	GAME_SKU_DOOM1_BFG,				// Doom 1 Ran from BFG
 	GAME_SKU_DOOM2_BFG,				// Doom 2 Ran from BFG
-
 };
 
 /*

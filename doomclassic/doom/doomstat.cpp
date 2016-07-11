@@ -26,23 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "Precompiled.h"
-#include "globaldata.h"
-
-
 #ifdef __GNUG__
 #pragma implementation "doomstat.h"
 #endif
 #include "doomstat.h"
-
-
-// Game Mode - identify IWAD as shareware, retail etc.
-
-// Language.
-
-// Set if homebrew PWAD stuff has been added.
-
-
-
-
-

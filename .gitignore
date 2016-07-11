@@ -1,6 +1,8 @@
 build*
 eclipse*
 neo/ipch
+.idea/
+*.gch
 
 Doom3BFG.exe
 base/_common.crc

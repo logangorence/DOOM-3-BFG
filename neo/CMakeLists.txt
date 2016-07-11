@@ -3,44 +3,31 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 project(RBDoom3BFG)
 
-option(USE_MFC_TOOLS
-		"Compile the built-in MFC based tools" OFF)
+option(USE_MFC_TOOLS "Compile the built-in MFC based tools" OFF)
 		
-option(MONOLITH
-		"Embed game logic into main executable" ON)
+option(MONOLITH "Embed game logic into main executable" ON)
 
-option(USE_PRECOMPILED_HEADERS
-		"Use precompiled headers during build" ON)
+option(USE_PRECOMPILED_HEADERS "Use precompiled headers during build" ON)
 		
-option(SDL2
-		"Use SDL2 instead of SDL1.2" ON)
+option(SDL2 "Use SDL2 instead of SDL1.2" ON)
 		
-option(OPENAL
-		"Use OpenAL soft instead of XAudio2" OFF)
+option(OPENAL "Use OpenAL soft instead of XAudio2" OFF)
 
-option(FFMPEG
-		"Use FMPEG to render Bink videos" ON)
+option(FFMPEG "Use FMPEG to render Bink videos" ON)
 
-option(ONATIVE
-		"Optimize for the host CPU" OFF)
+option(ONATIVE "Optimize for the host CPU" OFF)
 		
-option(WINRT
-		"Build for Windows RT" OFF)
+option(WINRT "Build for Windows RT" OFF)
 		
-option(WINDOWS10
-		"Build for Windows 10" OFF)
+option(WINDOWS10 "Build for Windows 10" OFF)
 		
-option(USE_SYSTEM_ZLIB
-                "Use the system zlib instead of the bundled one" OFF)
+option(USE_SYSTEM_ZLIB "Use the system zlib instead of the bundled one" OFF)
 
-option(USE_SYSTEM_LIBPNG
-                "Use the system libpng instead of the bundled one" OFF)
+option(USE_SYSTEM_LIBPNG "Use the system libpng instead of the bundled one" OFF)
 
-option(USE_SYSTEM_LIBJPEG
-                "Use the system libjpeg instead of the bundled one" OFF)
+option(USE_SYSTEM_LIBJPEG "Use the system libjpeg instead of the bundled one" OFF)
 
-option(USE_SYSTEM_LIBGLEW
-                "Use the system libglew instead of the bundled one" OFF)
+option(USE_SYSTEM_LIBGLEW "Use the system libglew instead of the bundled one" OFF)
 
 set(CPU_TYPE "" CACHE STRING "When set, passes this string as CPU-ID which will be embedded into the binary.")
 

@@ -45,7 +45,6 @@ enum matchFlags_t
 	MATCH_RANKED					= BIT( 2 ),		// Match will affect rank
 	MATCH_PRIVATE					= BIT( 3 ),		// Match will NOT be searchable through FindOrCreateMatch
 	MATCH_INVITE_ONLY				= BIT( 4 ),		// Match visible through invite only
-	
 	MATCH_REQUIRE_PARTY_LOBBY		= BIT( 5 ),		// This session uses a party lobby
 	MATCH_PARTY_INVITE_PLACEHOLDER	= BIT( 6 ),		// Party is never shown in the UI, it's simply used as a placeholder for invites
 	MATCH_JOIN_IN_PROGRESS			= BIT( 7 ),		// Join in progress supported for this match

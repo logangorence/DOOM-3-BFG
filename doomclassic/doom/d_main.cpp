@@ -318,15 +318,16 @@ void D_DoomLoop(void) {
  * Handles timing for warped ::g->projection
  */
 void D_PageTicker(void) {
-	if (--::g->pagetic < 0)
-		D_AdvanceDemo();
+	if (--::g->pagetic < 0) {
+        D_AdvanceDemo();
+    }
 }
 
 //
 // D_PageDrawer
 //
 void D_PageDrawer(void) {
-	V_DrawPatch (0,0, 0, (patch_t*)W_CacheLumpName(::g->pagename, PU_CACHE_SHARED));
+	V_DrawPatch (0, 0, 0, (patch_t*)W_CacheLumpName(::g->pagename, PU_CACHE_SHARED));
 }
 
 /**
@@ -491,41 +492,24 @@ void D_DoomMain (void) {
         ::g->deathmatch = 1;
     }
 
+    int major = VERSION / 100;
+    int minor = VERSION % 100;
+
 	switch ( ::g->gamemode ) {
         case retail:
-            sprintf (::g->title,
-                "                         "
-                "The Ultimate DOOM Startup v%i.%i"
-                "                           ",
-                VERSION/100,VERSION%100);
+            sprintf (::g->title, "The Ultimate DOOM Startup v%i.%i", major, minor);
             break;
         case shareware:
-            sprintf (::g->title,
-                "                            "
-                "DOOM Shareware Startup v%i.%i"
-                "                           ",
-                VERSION/100,VERSION%100);
+            sprintf (::g->title, "DOOM Shareware Startup v%i.%i", major, minor);
             break;
         case registered:
-            sprintf (::g->title,
-                "                            "
-                "DOOM Registered Startup v%i.%i"
-                "                           ",
-                VERSION/100,VERSION%100);
+            sprintf (::g->title, "DOOM Registered Startup v%i.%i", major, minor);
             break;
         case commercial:
-            sprintf (::g->title,
-                "                         "
-                "DOOM 2: Hell on Earth v%i.%i"
-                "                           ",
-                VERSION/100,VERSION%100);
+            sprintf (::g->title, "DOOM 2: Hell on Earth v%i.%i", major, minor);
             break;
         default:
-            sprintf (::g->title,
-                "                     "
-                "Public DOOM - v%i.%i"
-                "                           ",
-                VERSION/100,VERSION%100);
+            sprintf (::g->title, "Public DOOM - v%i.%i", major, minor);
             break;
 	}
 
