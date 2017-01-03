@@ -371,8 +371,7 @@ void idAchievementManager::CheckDoomClassicsAchievements(int killcount, int item
         if (gotAllItems && gotAllKills && gotAllSecrets) {
             if (currentGame == DOOM_CLASSIC) {
                 LocalUser_CompleteAchievement(ACHIEVEMENT_DOOM1_BURNING_OUT_OF_CONTROL_COMPLETE_KILLS_ITEMS_SECRETS);
-            }
-            else if (currentGame == DOOM2_CLASSIC) {
+            } else if (currentGame == DOOM2_CLASSIC) {
                 LocalUser_CompleteAchievement(ACHIEVEMENT_DOOM2_BURNING_OUT_OF_CONTROL_COMPLETE_KILLS_ITEMS_SECRETS);
             }
         }
@@ -437,9 +436,7 @@ void idAchievementManager::CheckDoomClassicsAchievements(int killcount, int item
             }
         }
         else if (expansion == doom2) {
-
             if (map == 30) {
-
                 if (currentGame == DOOM2_CLASSIC) {
                     LocalUser_CompleteAchievement(ACHIEVEMENT_DOOM2_FROM_EARTH_TO_HELL_COMPLETE_HELL_ON_EARTH);
 
@@ -451,7 +448,6 @@ void idAchievementManager::CheckDoomClassicsAchievements(int killcount, int item
         }
         else if (expansion == pack_nerve) {
             if (map == 8) {
-
                 if (currentGame == DOOM2_CLASSIC) {
                     LocalUser_CompleteAchievement(ACHIEVEMENT_DOOM2_AND_BACK_AGAIN_COMPLETE_NO_REST);
                 }

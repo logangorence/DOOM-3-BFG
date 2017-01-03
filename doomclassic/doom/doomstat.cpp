@@ -29,4 +29,5 @@ If you have questions concerning this license or the applicable additional terms
 #ifdef __GNUG__
 #pragma implementation "doomstat.h"
 #endif
+#include "precompiled.h"
 #include "doomstat.h"

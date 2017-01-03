@@ -29,8 +29,8 @@ If you have questions concerning this license or the applicable additional terms
 #ifdef __GNUG__
 #pragma implementation "d_items.h"
 #endif
+#include "precompiled.h"
 #include "d_items.h"
-
 #include "globaldata.h"
 
 /**

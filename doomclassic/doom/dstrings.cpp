@@ -29,6 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifdef __GNUG__
 #pragma implementation "dstrings.h"
 #endif
+#include "precompiled.h"
 #include "dstrings.h"
 
 const char* endmsg[NUM_QUITMESSAGES + 1] = {
