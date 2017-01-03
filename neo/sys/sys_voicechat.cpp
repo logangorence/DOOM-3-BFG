@@ -45,10 +45,9 @@ idVoiceChatMgr::Shutdown
 */
 void idVoiceChatMgr::Shutdown()
 {
-
 	// We shouldn't have voice users if everything shutdown correctly
-	assert( talkers.Num() == 0 );
-	assert( remoteMachines.Num() == 0 );
+	assert(talkers.Num() == 0);
+	assert(remoteMachines.Num() == 0);
 }
 
 /*
@@ -69,7 +68,6 @@ void idVoiceChatMgr::RegisterTalker( lobbyUser_t* user, int lobbyType, bool isLo
 	}
 	
 	// Talker not found, need to create a new one
-	
 	talker_t newTalker;
 	
 	newTalker.user				= user;

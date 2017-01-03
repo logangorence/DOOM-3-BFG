@@ -754,42 +754,30 @@ int WI_deathSum(int playernum)
 
 void WI_initDeathmatchStats(void)
 {
-
-    int		i;
-    int		j;
-
     ::g->state = StatCount;
     ::g->acceleratestage = 0;
     ::g->dm_state = 1;
 
     ::g->cnt_pause = TICRATE;
 
-    for (i=0 ; i<MAXPLAYERS ; i++)
+    for (int i = 0; i<MAXPLAYERS; i++)
     {
-	if (::g->playeringame[i])
-	{
-	    for (j=0 ; j<MAXPLAYERS ; j++)
-		if (::g->playeringame[j])
-		    ::g->dm_frags[i][j] = 0;
+		if (::g->playeringame[i])
+		{
+			for (int j = 0; j < MAXPLAYERS; j++) {
+				if (::g->playeringame[j]) {
+					::g->dm_frags[i][j] = 0;
+				}
+			}
 
-	    ::g->dm_totals[i] = 0;
-	}
+			::g->dm_totals[i] = 0;
+		}
     }
     
     WI_initAnimatedBack();
 
 	if ( common->IsMultiplayer() ) {
 		localCalculateAchievements(false);
-
-		/* JAF PS3 
-		gameLocal->liveSession.GetDMSession().SetEndOfMatchStats();
-		gameLocal->liveSession.GetDMSession().WriteTrueskill();
-
-		// Write stats
-		if ( gameLocal->liveSession.IsHost( ::g->consoleplayer ) ) {
-			gameLocal->liveSession.GetDMSession().BeginEndLevel();
-		}
-		*/
 	}
 
 	DoomLib::ShowXToContinue( true );
@@ -998,56 +986,34 @@ void WI_drawDeathmatchStats(void)
 
 void WI_initNetgameStats(void)
 {
-
-    int i;
-
     ::g->state = StatCount;
     ::g->acceleratestage = 0;
     ::g->ng_state = 1;
 
     ::g->cnt_pause = TICRATE;
 
-    for (i=0 ; i<MAXPLAYERS ; i++)
+    for (int i = 0; i < MAXPLAYERS; i++)
     {
-	if (!::g->playeringame[i])
-	    continue;
+		if (!::g->playeringame[i])
+		{
+			continue;
+		}
 
-	::g->cnt_kills[i] = ::g->cnt_items[i] = ::g->cnt_secret[i] = ::g->cnt_frags[i] = 0;
-
-	::g->dofrags += WI_fragSum(i);
+		::g->cnt_kills[i] = ::g->cnt_items[i] = ::g->cnt_secret[i] = ::g->cnt_frags[i] = 0;
+		::g->dofrags += WI_fragSum(i);
     }
 
     ::g->dofrags = !!::g->dofrags;
 
     WI_initAnimatedBack();
 
-	// JAF PS3 
-	/*
-	if ( gameLocal->IsMultiplayer() ) {
-		if(gameLocal->IsFullVersion() && gameLocal->liveSession.IsHost( ::g->consoleplayer )) {
-			bool endOfMission = false;
-
-			if ( ::g->gamemission == 0 && ::g->gamemap == 30 ) {
-				endOfMission = true;
-			}
-			else if ( ::g->gamemission > 0 && ::g->gamemap == 8 ) {
-				endOfMission = true;
-			}
-
-			gameLocal->liveSession.GetCoopSession().BeginEndLevel( endOfMission );
-		}
-	}
-	*/
-
-	DoomLib::ShowXToContinue( true );
-	
+	DoomLib::ShowXToContinue(true);
 }
 
 
 
 void WI_updateNetgameStats(void)
 {
-
     int		i;
     int		fsum;
     

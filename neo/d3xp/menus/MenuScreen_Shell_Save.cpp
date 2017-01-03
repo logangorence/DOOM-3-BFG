@@ -377,7 +377,7 @@ void idMenuScreen_Shell_Save::SaveGame( int index )
 			
 			idStr name = details.slotName;
 			
-			name.ToLower();		// PS3 saves are uppercase ... we need to lower case-ify them for comparison here
+			name.ToLower();
 			name.StripLeading( savePrefix.c_str() );
 			if( name.IsNumeric() )
 			{

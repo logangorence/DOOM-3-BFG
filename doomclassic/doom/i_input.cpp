@@ -198,14 +198,9 @@ static bool Cheat_GiveLight() {
 }
 
 
-
-#ifndef __PS3__
-
-static bool			tracking		= false;
-static int			currentCode[NUM_BUTTONS];
-static int			currentCheatLength;
-
-#endif
+static bool tracking = false;
+static int currentCode[NUM_BUTTONS];
+static int currentCheatLength;
 
 typedef bool(*cheat_command)(void);
 struct cheatcode_t

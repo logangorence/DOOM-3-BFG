@@ -754,10 +754,8 @@ bool TryRunTics ( idUserCmdMgr * userCmdMgr )
 				if ( lowtic_node == ::g->nodeforplayer[::g->consoleplayer] ) {
 
 #ifdef ID_ENABLE_DOOM_CLASSIC_NETWORKING
-#ifndef __PS3__
 					gameLocal->showFatalErrorMessage( XuiLookupStringTable(globalStrings,L"You have been disconnected from the match.") );
 					gameLocal->Interface.QuitCurrentGame();
-#endif
 #endif
 				} else {
 					if (::g->nodeingame[lowtic_node]) {

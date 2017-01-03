@@ -50,8 +50,6 @@ public:
 	void QuitCurrentGame();
 	void EndDMGame();
 
-	// PS3
-	//void InitGraphics( int player = -1, int width = TEXTUREWIDTH, int height = TEXTUREHEIGHT, D3DCOLOR *pBuffer = NULL, D3DCOLOR *pBuffer2 = NULL );
 	void SetPostGlobalsCallback( NoParamCallback cb );
 #ifdef ID_ENABLE_DOOM_CLASSIC_NETWORKING
 	void SetNetworking( DoomLib::RecvFunc recv, DoomLib::SendFunc send, DoomLib::SendRemoteFunc sendRemote );

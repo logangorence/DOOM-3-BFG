@@ -864,8 +864,6 @@ void M_FinishReadThis(int choice) {
 // M_QuitDOOM
 //
 void M_QuitResponse(int ch) {
-    // Exceptions disabled by default on PS3
-    //throw "";
 }
 
 void M_QuitDOOM(int choice) {

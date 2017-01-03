@@ -97,21 +97,15 @@ void I_Init (void)
 //
 void I_Quit (void)
 {
-    D_QuitNetGame ();
+    D_QuitNetGame();
     I_ShutdownSound();
     I_ShutdownMusic();
-    M_SaveDefaults ();
+    M_SaveDefaults();
     I_ShutdownGraphics();
-//    exit(0);
-
-// Exceptions disabled by default on PS3
-//	throw;
 }
 
 void I_WaitVBL(int count)
 {
-	// PS3 fixme
-	//Sleep(0);
 }
 
 void I_BeginRead(void)

@@ -183,9 +183,8 @@ void idMenuScreen_Shell_ControllerLayout::ShowScreen( const mainMenuTransition_t
 	layoutData.LoadData();
 	idMenuScreen::ShowScreen( transitionType );
 	
-	if( GetSprite() != NULL )
+	if(GetSprite() != NULL)
 	{
-	
 		idSWFSpriteInstance* layout360 = NULL;
 		idSWFSpriteInstance* layoutPS3 = NULL;
 		

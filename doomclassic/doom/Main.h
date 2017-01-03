@@ -63,12 +63,10 @@ extern bool		debugOutput;
 extern bool		globalLicenseFullGame;
 extern int		globalRichPresenceState;  // values from spa.h X_CONTEXT_PRESENCE
 extern int		globalNeedUpsell;
-// PS3
-//extern HXUISTRINGTABLE globalStrings;     // gStrings for short
 extern bool		globalPauseTime;
 
 
-enum MenuStates{
+enum MenuStates {
 	MENU_NONE,
 	MENU_XBOX_SYSTEM,
 	MENU_PAUSE,
