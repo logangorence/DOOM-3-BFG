@@ -144,8 +144,7 @@ void idAchievementManager::SyncAchievments() {
     for (int i = 0; i < counts.Num(); i++) {
         if (user->GetProfile()->GetAchievement(i)) {
             counts[i] = achievementInfo[i].required;
-        }
-        else if (achievementInfo[i].lifetime) {
+        } else if (achievementInfo[i].lifetime) {
             counts[i] = user->GetStatInt(i);
         }
     }
@@ -257,8 +256,7 @@ void idAchievementManager::EventCompletesAchievement(const achievement_t eventId
 
     if (counts[eventId] >= achievementInfo[eventId].required) {
         session->GetAchievementSystem().AchievementUnlock(localUser, eventId);
-    }
-    else {
+    } else {
         if (achievementInfo[eventId].lifetime) {
             localUser->SetStatInt(eventId, counts[eventId]);
         }

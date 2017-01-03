@@ -83,8 +83,6 @@ idCVar com_updateLoadSize( "com_updateLoadSize", "0", CVAR_BOOL | CVAR_SYSTEM | 
 
 idCVar com_productionMode( "com_productionMode", "0", CVAR_SYSTEM | CVAR_BOOL, "0 - no special behavior, 1 - building a production build, 2 - running a production build" );
 
-idCVar com_japaneseCensorship( "com_japaneseCensorship", "0", CVAR_NOCHEAT, "Enable Japanese censorship" );
-
 idCVar preload_CommonAssets( "preload_CommonAssets", "1", CVAR_SYSTEM | CVAR_BOOL, "preload common assets" );
 
 idCVar net_inviteOnly( "net_inviteOnly", "1", CVAR_BOOL | CVAR_ARCHIVE, "whether or not the private server you create allows friends to join or invite only" );
@@ -160,7 +158,6 @@ idCommonLocal::idCommonLocal() :
 	com_refreshOnPrint = false;
 	com_errorEntered = ERP_NONE;
 	com_shuttingDown = false;
-	com_isJapaneseSKU = false;
 	
 	logFile = NULL;
 	
@@ -649,7 +646,7 @@ void idCommonLocal::CheckStartupStorageRequirements()
 	// RB: disabled savegame and profile storage checks, because it fails sometimes without any clear reason
 #if 0
 	int64 availableSpace = 0;
-	
+
 	// ------------------------------------------------------------------------
 	// Savegame and Profile required storage
 	// ------------------------------------------------------------------------
@@ -657,89 +654,79 @@ void idCommonLocal::CheckStartupStorageRequirements()
 		// Make sure the save path exists in case it was deleted.
 		// If the path cannot be created we can safely assume there is no
 		// free space because in that case nothing can be saved anyway.
-		const char* savepath = cvarSystem->GetCVarString( "fs_savepath" );
+		const char* savepath = cvarSystem->GetCVarString("fs_savepath");
 		idStr directory = savepath;
 		//idStr directory = fs_savepath.GetString();
 		directory += "\\";	// so it doesn't think the last part is a file and ignores in the directory creation
-		fileSystem->CreateOSPath( directory );
-		
+		fileSystem->CreateOSPath(directory);
+
 		// Get the free space on the save path.
-		availableSpace = Sys_GetDriveFreeSpaceInBytes( savepath );
-		
+		availableSpace = Sys_GetDriveFreeSpaceInBytes(savepath);
+
 		// If free space fails then get space on drive as a fall back
 		// (the directory will be created later anyway)
-		if( availableSpace <= 1 )
+		if (availableSpace <= 1)
 		{
-			idStr savePath( savepath );
-			if( savePath.Length() >= 3 )
+			idStr savePath(savepath);
+			if (savePath.Length() >= 3)
 			{
-				if( savePath[ 1 ] == ':' && savePath[ 2 ] == '\\' &&
-						( ( savePath[ 0 ] >= 'A' && savePath[ 0 ] <= 'Z' ) ||
-						  ( savePath[ 0 ] >= 'a' && savePath[ 0 ] <= 'z' ) ) )
+				if (savePath[1] == ':' && savePath[2] == '\\' &&
+					((savePath[0] >= 'A' && savePath[0] <= 'Z') ||
+					(savePath[0] >= 'a' && savePath[0] <= 'z')))
 				{
-					savePath = savePath.Left( 3 );
-					availableSpace = Sys_GetDriveFreeSpaceInBytes( savePath );
+					savePath = savePath.Left(3);
+					availableSpace = Sys_GetDriveFreeSpaceInBytes(savePath);
 				}
 			}
 		}
 	}
-	
-	const int MIN_SAVE_STORAGE_PROFILE		= 1024 * 1024;
-	const int MIN_SAVE_STORAGE_SAVEGAME		= MIN_SAVEGAME_SIZE_BYTES;
-	
+
+	const int MIN_SAVE_STORAGE_PROFILE = 1024 * 1024;
+	const int MIN_SAVE_STORAGE_SAVEGAME = MIN_SAVEGAME_SIZE_BYTES;
+
 	uint64 requiredSizeBytes = MIN_SAVE_STORAGE_SAVEGAME + MIN_SAVE_STORAGE_PROFILE;
-	
-	idLib::Printf( "requiredSizeBytes: %lld\n", requiredSizeBytes );
-	
-	if( ( int64 )( requiredSizeBytes - availableSpace ) > 0 )
+
+	idLib::Printf("requiredSizeBytes: %lld\n", requiredSizeBytes);
+
+	if ((int64)(requiredSizeBytes - availableSpace) > 0)
 	{
 		class idSWFScriptFunction_Continue : public idSWFScriptFunction_RefCounted
 		{
 		public:
 			virtual ~idSWFScriptFunction_Continue() {}
-			idSWFScriptVar Call( idSWFScriptObject* thisObject, const idSWFParmList& parms )
+			idSWFScriptVar Call(idSWFScriptObject* thisObject, const idSWFParmList& parms)
 			{
-				common->Dialog().ClearDialog( GDM_INSUFFICENT_STORAGE_SPACE );
+				common->Dialog().ClearDialog(GDM_INSUFFICENT_STORAGE_SPACE);
 				common->Quit();
 				return idSWFScriptVar();
 			}
 		};
-		
+
 		idStaticList< idSWFScriptFunction*, 4 > callbacks;
 		idStaticList< idStrId, 4 > optionText;
-		callbacks.Append( new( TAG_SWF ) idSWFScriptFunction_Continue() );
-		optionText.Append( idStrId( "#STR_SWF_ACCEPT" ) );
-		
+		callbacks.Append(new(TAG_SWF) idSWFScriptFunction_Continue());
+		optionText.Append(idStrId("#STR_SWF_ACCEPT"));
+
 		// build custom space required string
 		// #str_dlg_space_required ~= "There is insufficient storage available.  Please free %s and try again."
-		idStr format = idStrId( "#str_dlg_startup_insufficient_storage" ).GetLocalizedString();
+		idStr format = idStrId("#str_dlg_startup_insufficient_storage").GetLocalizedString();
 		idStr size;
-		if( requiredSizeBytes > ( 1024 * 1024 ) )
+		if (requiredSizeBytes > (1024 * 1024))
 		{
-			size = va( "%.1f MB", ( float )requiredSizeBytes / ( 1024.0f * 1024.0f ) + 0.1f );	// +0.1 to avoid truncation
+			size = va("%.1f MB", (float)requiredSizeBytes / (1024.0f * 1024.0f) + 0.1f);	// +0.1 to avoid truncation
 		}
 		else
 		{
-			size = va( "%.1f KB", ( float )requiredSizeBytes / 1024.0f + 0.1f );
+			size = va("%.1f KB", (float)requiredSizeBytes / 1024.0f + 0.1f);
 		}
-		idStr msg = va( format.c_str(), size.c_str() );
-		
-		common->Dialog().AddDynamicDialog( GDM_INSUFFICENT_STORAGE_SPACE, callbacks, optionText, true, msg );
+		idStr msg = va(format.c_str(), size.c_str());
+
+		common->Dialog().AddDynamicDialog(GDM_INSUFFICENT_STORAGE_SPACE, callbacks, optionText, true, msg);
 	}
 #endif
 	// RB end
-	
-	session->GetAchievementSystem().Start();
-}
 
-/*
-===============
-idCommonLocal::JapaneseCensorship
-===============
-*/
-bool idCommonLocal::JapaneseCensorship() const
-{
-	return com_japaneseCensorship.GetBool() || com_isJapaneseSKU;
+	session->GetAchievementSystem().Start();
 }
 
 /*
@@ -1219,7 +1206,6 @@ void idCommonLocal::Init( int argc, const char* const* argv, const char* cmdline
 		fileSystem->Init();
 		
 		const char* defaultLang = Sys_DefaultLanguage();
-		com_isJapaneseSKU = ( idStr::Icmp( defaultLang, ID_LANG_JAPANESE ) == 0 );
 		
 		// Allow the system to set a default lanugage
 		Sys_SetLanguageFromSystem();

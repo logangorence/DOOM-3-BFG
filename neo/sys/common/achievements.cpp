@@ -34,8 +34,6 @@ If you have questions concerning this license or the applicable additional terms
 
 extern idCVar achievements_Verbose;
 
-#define STEAM_ACHIEVEMENT_PREFIX        "ach_"
-
 /*
 ========================
 idAchievementSystemWin::idAchievementSystemWin
@@ -60,6 +58,7 @@ idAchievementSystemWin::AchievementUnlock
 */
 void idAchievementSystemWin::AchievementUnlock(idLocalUser *user, int achievementID) {
     idLib::Printf("Achievement unlocked: %i\n", achievementID);
+	user->GetProfile()->SetAchievement(achievementID);
 }
 
 /*
@@ -68,6 +67,8 @@ idAchievementSystemWin::AchievementLock
 ========================
 */
 void idAchievementSystemWin::AchievementLock(idLocalUser *user, const int achievementID) {
+	idLib::Printf("Achievement locked: %i\n", achievementID);
+	user->GetProfile()->ClearAchievement(achievementID);
 }
 
 /*
